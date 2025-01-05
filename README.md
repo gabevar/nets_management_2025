@@ -3,11 +3,13 @@
 
 ## Neogen
 
-Relationships between employees in an organization. Check "Lex Codebook and Scale Attribute Dataset.doc" for more information about the variables.
+Relationships between employees in an organization. Check "Lex Codebook and Scale Attribute Dataset.doc" for more information about the variables. Contains several different types of relationships.
 
 - "unodes" variable in the nodelist are the node IDs connected to the "From" and "To" columns in the edgelist.
 
 - The variable "Building" and "Buildingc" represent the different building that employees work in.
+
+- "neo_edges" contains all the relationships, while "neo_edges_a", "neo_edges_r", "neo_edges_c", "neo_edges_f" contain specific relationships.
 
 - To open all the raw data, use the load("path") and replace path with the location of "neogen.RData"
 
@@ -21,15 +23,27 @@ Relationships between teachers and staff inside a school. The codebook containin
 
 - The "compleated_network" variable in the nodelist tells us if the respondent compleated the full network section. Careful, they are still included in the edgelist! But their responses might be partial.
 
+- "mill_edges" contains all the relationships, while "mill_edges_c", "mill_edges_r", "mill_edges_p" contain specific relationships.
+
 ## India Owners
 
-[Fill in description] [what is edge value?]
+Co-Ownership network among Indian firms. Edge values are co-ownership levels. For more information, read:
+
+Mani, Dalhia  and James Moody “Moving beyond stylized economic network models The Hybrid World of the Indian Firm Ownership Network”  American Journal of sociology 119:1629-1669
 
 - "nodeid" variable in nodelist are the node IDs connected with the "sender" and "recver" columns in the edgelist.
 
+- "information" document contains information about the creation of the network.
+
 ## Hassan Dissertation Data
 
-[No data]
+Inter-organizational relationships between employees. Contains information about which employee exited or got promoted, and multiple organizations to compare. You can also read the dissertation that was based on this data for some ideas!
+
+- "id" variable in nodelist are the node IDs connected with the "from" and "to" columns in the edgelists.
+
+- edgelists are split into different organizations, numbered from 1 to 6.
+
+- In the nodelist, the "exit" and "promotion" columns indicate the outcome for each employee.
 
 ## Fire Chasers
 
@@ -47,6 +61,8 @@ Collaboration between school administrators in two school districts. Different t
 
 - The "District_Site" variable in the nodelist indicates which district the staff is working in.
 
+- The data is split into two samples. "daly_nodes" and "daly_edges" contains both, while "daly_nodes_1", "daly_edges_1", "daly_nodes_2" and "daly_edges_2" contains individuals samples.
+
 ## Capital Partners
 
 Collaborations between agents at three commercial real estate firms. Contains different types of relationships, like support, advice and socializing. Good for generating questions about network overlap.
@@ -56,5 +72,7 @@ Collaborations between agents at three commercial real estate firms. Contains di
 - "Capital_Partners_case.pdf" has information about the organization, and the direction of the study.
 
 - "Capital_Partners_Survey.pdf" contains the survey information and codebook.
+
+- "cp_edges" contains all the relationships, while "cp_edges_w", "cp_edges_p", "cp_edges_s", "cp_edges_a" contain specific relationships.
 
 
