@@ -1,0 +1,184 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(readxl)
+library(tidyverse)
+library(igraph)
+```
+
+## Neogen
+
+```{r}
+load("/Users/gabe/Documents/Projects/net&management2025/Class Data Folders/Neogen/neogenHomophily.RData")
+```
+
+Split by edge type.
+
+```{r}
+alledges_f <- alledges |> filter(relation == "Feeling")
+alledges_c <- alledges |> filter(relation == "Conflict")
+alledges_r <- alledges |> filter(relation == "Required")
+alledges_a <- alledges |> filter(relation == "Advice")
+```
+
+```{r}
+write.csv(alledges, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/Neogen/neo_edges.csv")
+write.csv(nodedat, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/Neogen/neo_nodes.csv")
+
+write.csv(alledges_f, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/Neogen/neo_edges_f.csv")
+write.csv(alledges_c, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/Neogen/neo_edges_c.csv")
+write.csv(alledges_r, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/Neogen/neo_edges_r.csv")
+write.csv(alledges_a, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/Neogen/neo_edges_a.csv")
+```
+
+## Milltown
+
+```{r}
+nodes <- read_xlsx("/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/MillTown/attributes.xlsx")
+edges <- read_xls("/Users/gabe/Documents/Projects/net&management2025/Class Data Folders/MillTown/AllEdges.xls")
+edges <- edges |> select(ego, alter, weight, relation)
+```
+
+```{r}
+net <- graph_from_data_frame(edges, directed = F, vertices = nodes)
+pal <- RColorBrewer::brewer.pal(length(unique(V(net)$school)), "Dark2")
+plot(net, vertex.color = pal[as.numeric(as.factor(vertex_attr(net, "school")))])
+```
+
+Split by edge type
+
+```{r}
+edges_p <- edges |> filter(relation == "Personal")
+edges_r <- edges |> filter(relation == "Reform")
+edges_c <- edges |> filter(relation == "Course")
+```
+
+```{r}
+write.csv(nodes, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/MillTown/mill_nodes.csv")
+write.csv(edges, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/MillTown/mill_edges.csv")
+
+write.csv(edges_p, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/Neogen/mill_edges_p.csv")
+write.csv(edges_r, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/Neogen/mill_edges_r.csv")
+write.csv(edges_c, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/Neogen/mill_edges_c.csv")
+```
+
+## India Owners
+
+```{r}
+nodes <- read_xls("/Users/gabe/Documents/Projects/net&management2025/Class Data Folders/IndiaOwners/LargeCompNodes.xls")
+edges <- read_xls("/Users/gabe/Documents/Projects/net&management2025/Class Data Folders/IndiaOwners/LargeCompEdges.xls")
+
+nodes <- nodes |> select(nodeid, everything())
+```
+
+```{r}
+write.csv(nodes, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/IndiaOwners/india_nodes.csv")
+write.csv(edges, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/IndiaOwners/india_edges.csv")
+```
+
+## Fire Chasers
+
+```{r}
+nodes <- read_xls("/Users/gabe/Documents/Projects/net&management2025/Class Data Folders/FireChasers/AllAttribs.xls")
+edges <- read_xls("/Users/gabe/Documents/Projects/net&management2025/Class Data Folders/FireChasers/AllEdges.xls")
+```
+
+```{r}
+write.csv(nodes, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/FireChasers/fire_nodes.csv")
+write.csv(edges, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/FireChasers/fire_edges.csv")
+```
+
+## Daly Leaders
+
+```{r}
+nodes <- read_xls("/Users/gabe/Documents/Projects/net&management2025/Class Data Folders/DalyLeaders/AllAttribs.xls")
+nodes <- nodes |> select(numid, everything())
+
+edges <- read_xls("/Users/gabe/Documents/Projects/net&management2025/Class Data Folders/DalyLeaders/AllEdges.xls")
+edges <- edges |> select(numid1, numid2, everything())
+```
+
+Split the two samples
+
+```{r}
+nodes1 <- nodes |> filter(sample == 1)
+nodes2 <- nodes |> filter(sample == 2)
+
+edges1 <- edges |> filter(sample == 1)
+edges2 <- edges |> filter(sample == 2)
+```
+
+```{r}
+write.csv(nodes, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/DalyLeaders/daly_nodes.csv")
+write.csv(edges, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/DalyLeaders/daly_edges.csv")
+
+write.csv(nodes1, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/DalyLeaders/daly_nodes_1.csv")
+write.csv(nodes2, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/DalyLeaders/daly_nodes_2.csv")
+
+write.csv(edges1, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/DalyLeaders/daly_edges_1.csv")
+write.csv(edges2, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/DalyLeaders/daly_edges_2.csv")
+```
+
+## Capital Partners
+
+```{r}
+nodes <- read_xlsx("/Users/gabe/Documents/Projects/net&management2025/Class Data Folders/CapitalPartners/cp_nodes.xlsx")
+nodes <- nodes |> select(numid, everything())
+
+edges <- read_xlsx("/Users/gabe/Documents/Projects/net&management2025/Class Data Folders/CapitalPartners/cp_edges.xlsx")
+edges <- edges |> select(numid1, numid2, node1, node2, relation)
+```
+
+```{r}
+edges_a <- edges |> filter(relation == "Advice")
+edges_s <- edges |> filter(relation == "Social")
+edges_p <- edges |> filter(relation == "Promote")
+edges_w <- edges |> filter(relation == "Weekly")
+```
+
+
+```{r}
+write.csv(nodes, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/CapitalPartners/cp_nodes.csv")
+write.csv(edges, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/CapitalPartners/cp_edges.csv")
+
+write.csv(edges_a, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/CapitalPartners/cp_edges_a.csv")
+write.csv(edges_s, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/CapitalPartners/cp_edges_s.csv")
+write.csv(edges_p, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/CapitalPartners/cp_edges_p.csv")
+write.csv(edges_w, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/CapitalPartners/cp_edges_w.csv")
+```
+
+## Hassan Network Data
+
+```{r}
+nodes <- read.csv("/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/HasanOrgs/raw_data/atr_res_all.csv")
+outcomes <- read.csv("/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/HasanOrgs/raw_data/career_event.csv")
+nodes <- nodes |> left_join(outcomes, by = c("id" = "ID"))
+
+nums = c("q0_res.csv", "q1_res.csv", "q2_res.csv", "q3_res.csv", "q4_res.csv", "q5_res.csv")
+res <- list()
+for (i in seq_along(nums)){
+  edges <- read.csv(paste0("/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/HasanOrgs/raw_data/", nums[i]))
+  edges <- edges %>% remove_rownames %>% column_to_rownames(var="X") |> as.matrix()
+  colnames(edges) <- sub("X", "", colnames(edges))
+  edges <- setNames(reshape2::melt(edges), c("from", "to", "value")) |> filter(value == 1)
+  res[[i]] <- edges
+}
+```
+
+```{r}
+write.csv(nodes, "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/HasanOrgs/hasan_nodes.csv")
+
+write.csv(res[[1]], "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/HasanOrgs/hasan_edges_1.csv")
+write.csv(res[[2]], "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/HasanOrgs/hasan_edges_2.csv")
+write.csv(res[[3]], "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/HasanOrgs/hasan_edges_3.csv")
+write.csv(res[[4]], "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/HasanOrgs/hasan_edges_4.csv")
+write.csv(res[[5]], "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/HasanOrgs/hasan_edges_5.csv")
+write.csv(res[[6]], "/Users/gabe/Documents/Projects/net&management2025/nets_management_2025/HasanOrgs/hasan_edges_6.csv")
+```
+
+
+
+
